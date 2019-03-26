@@ -14,11 +14,11 @@ func TestProofGenerationWithMultipleFields(t *testing.T) {
 	currency := "USD"
 	payload := map[string]interface{}{
 		"data": map[string]interface{}{
-			"invoice_number": "12324",
-			"due_date":       "2018-09-26T23:12:37.902198664Z",
-			"gross_amount":   "40",
-			"currency":       currency,
-			"net_amount":     "40",
+			"number":       "12324",
+			"date_due":     "2018-09-26T23:12:37.902198664Z",
+			"gross_amount": "40",
+			"currency":     currency,
+			"net_amount":   "40",
 		},
 	}
 
@@ -33,7 +33,7 @@ func TestProofGenerationWithMultipleFields(t *testing.T) {
 
 	objProof := GetProof(t, e, utils.Nodes[utils.NODE1].ID, docIdentifier, proofPayload)
 	objProof.Path("$.header.document_id").String().Equal(docIdentifier)
-	objProof.Path("$.field_proofs[0].property").String().Equal("0x000100000000000f") // invoice.net_amount
+	objProof.Path("$.field_proofs[0].property").String().Equal("0x000100000000002d") // invoice.net_amount
 	objProof.Path("$.field_proofs[0].sorted_hashes").NotNull()
 	objProof.Path("$.field_proofs[1].property").String().Equal("0x000100000000000d") // invoice.currency
 	objProof.Path("$.field_proofs[1].sorted_hashes").NotNull()
